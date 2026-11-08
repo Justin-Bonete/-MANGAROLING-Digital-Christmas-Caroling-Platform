@@ -23,7 +23,7 @@ class AdminSeeder extends Seeder
         $org = Organization::firstOrCreate(['name' => 'MANGAROLING Default Organization']);
         $user = User::firstOrCreate(
             ['email' => $email],
-            ['name' => 'System Administrator', 'password' => $password, 'organization_id' => $org->id, 'is_active' => true],
+            ['name' => 'System Administrator', 'password' => $password, 'organization_id' => $org->id, 'is_active' => true, 'must_change_password' => true],
         );
         $user->roles()->syncWithoutDetaching([Role::where('name', RoleName::SystemAdministrator->value)->value('id')]);
     }

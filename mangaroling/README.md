@@ -5,7 +5,8 @@ Digital Christmas caroling + voluntary donation management (Laravel / React+TS /
 ## Status
 - **Phase 1** Foundation: Docker Compose, Dockerfile, nginx, env templates, bootstrap script. ✅
 - **Phase 2** Database: 6 migrations, enums, 15 models, factories, seeders, DB-rule tests. ✅ (not yet executed; see below)
-- Phases 3+ (auth, campaigns, invitations, ...) not started.
+- **Phase 3** Authentication & authorization: Sanctum SPA login, roles to permissions, account management, audit logging, React login/users/audit pages. ✅ (not yet executed; see below)
+- Phases 4+ (campaigns, recipients, invitations, ...) not started.
 
 ## Setup
 1. `cp .env.example .env` and set `DB_PASSWORD`.
@@ -30,3 +31,10 @@ Digital Christmas caroling + voluntary donation management (Laravel / React+TS /
 | Verified donations | CHECK: non-pending rows must have `verified_by` and `verified_at` |
 | Multi-org | v1 is single-org in practice; `organization_id` is on users, campaigns, recipients, suppressions so it can scale later |
 | Token hash | `CHAR(64)` SHA-256 hex (high-entropy random token, so a fast hash is appropriate) |
+
+## Phase 3 notes
+- API reference: `docs/phase3-auth-api.md`.
+- First login: the seeded admin has `must_change_password=true`; you will be sent to the change-password screen.
+- Run the new tests: `docker compose exec backend php artisan test --filter='Authentication|Authorization|UserManagement'`
+- Production: set `SESSION_SECURE_COOKIE=true`, serve over HTTPS, and set `SANCTUM_STATEFUL_DOMAINS` / `FRONTEND_URL` to the real frontend host.
+- Known v1 limits: no password-reset-by-email (needs the Phase 5 mail pipeline), no 2FA, audit log is not org-scoped (single-organization v1).
