@@ -1,6 +1,0 @@
-.env
-backend/.env
-backend/vendor/
-backend/storage/app/private/
-frontend/node_modules/
-frontend/dist/
